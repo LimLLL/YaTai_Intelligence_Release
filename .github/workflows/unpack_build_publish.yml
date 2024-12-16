@@ -60,11 +60,12 @@ jobs:
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
+          key: ${{ matrix.args }}
 
       - name: Install frontend dependencies
         run: npm install
 
-      - uses: tauri-apps/tauri-action@v0
+      - uses: LimLLL/tauri-action-renameArtifacts@v0.5.18
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
@@ -77,6 +78,7 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
           updaterJsonPreferNsis: true
+          renameArtifacts: 'YaTai_Intelligence'
 
   modify-latest-json:
     needs: unpack-and-publish
