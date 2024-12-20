@@ -67,6 +67,7 @@ jobs:
 
       - name: Read and Sanitize Release Body
         id: sanitize_release_body
+        if: runner.os != 'Windows'
         run: |
           RELEASE_BODY=$(cat releaseBody.txt)
           # Replace semicolons with newlines
