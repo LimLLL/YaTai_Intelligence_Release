@@ -39,6 +39,12 @@ jobs:
       - name: Unzip code
         run: unzip -o -P ${{ secrets.ZIP_PASSWORD }} compressed_code.zip
 
+      - name: Modify Cargo.toml
+        run: |
+          sed -i 's|tauri = { version = "2", features = \["devtools"\] }|tauri = { version = "2", features = \[\] }|g' src-tauri/Cargo.toml
+          echo "Modified Cargo.toml:"
+          cat src-tauri/Cargo.toml
+
       - name: Install dependencies (Ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
         run: |
@@ -144,3 +150,22 @@ jobs:
               -H "Content-Type: application/octet-stream" \
               --data-binary "@latest.json" \
               "https://uploads.github.com/repos/${REPO}/releases/$RELEASE_ID/assets?name=latest.json"
+  cleanup:
+    needs: unpack-and-publish
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Delete compressed_code.zip
+        run: |
+          rm -f compressed_code.zip
+          echo "Deleted compressed_code.zip"
+      - name: Commit deletion
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add compressed_code.zip
+          git commit -m "Delete compressed_code.zip [skip ci]"
+          git push
