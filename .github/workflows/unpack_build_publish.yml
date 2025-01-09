@@ -41,7 +41,11 @@ jobs:
 
       - name: Modify Cargo.toml
         run: |
-          sed -i 's|tauri = { version = "2", features = \["devtools"\] }|tauri = { version = "2", features = \[\] }|g' src-tauri/Cargo.toml
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            sed -i '' 's|tauri = { version = "2", features = \["devtools"\] }|tauri = { version = "2", features = \[\] }|g' src-tauri/Cargo.toml
+          else
+            sed -i 's|tauri = { version = "2", features = \["devtools"\] }|tauri = { version = "2", features = \[\] }|g' src-tauri/Cargo.toml
+          fi
           echo "Modified Cargo.toml:"
           cat src-tauri/Cargo.toml
 
