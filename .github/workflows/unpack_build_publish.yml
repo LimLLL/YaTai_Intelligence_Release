@@ -102,6 +102,7 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
           updaterJsonPreferNsis: true
+          retryAttempts: 3
           renameArtifacts: 'YaTai_Intelligence'
 
   modify-latest-json:
