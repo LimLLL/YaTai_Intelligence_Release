@@ -43,7 +43,7 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         run: |
-          sed -i '' 's|tauri = { version = "2", features = \["devtools"\] }|tauri = { version = "2", features = \[\] }|g' src-tauri/Cargo.toml
+          sed -i '' 's|tauri = { version = "2", features = \["devtools", "test"\] }|tauri = { version = "2", features = \[\] }|g' src-tauri/Cargo.toml
           echo "Modified Cargo.toml:"
           cat src-tauri/Cargo.toml
 
@@ -51,7 +51,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
         run: |
-          (Get-Content src-tauri/Cargo.toml) -replace 'tauri = { version = "2", features = \["devtools"\] }', 'tauri = { version = "2", features = [] }' | Set-Content src-tauri/Cargo.toml
+          (Get-Content src-tauri/Cargo.toml) -replace 'tauri = { version = "2", features = \["devtools", "test"\] }', 'tauri = { version = "2", features = [] }' | Set-Content src-tauri/Cargo.toml
           Write-Output "Modified Cargo.toml:"
           Get-Content src-tauri/Cargo.toml
 
@@ -59,7 +59,7 @@ jobs:
         if: runner.os == 'Linux'
         shell: bash
         run: |
-          sed -i 's|tauri = { version = "2", features = \["devtools"\] }|tauri = { version = "2", features = \[\] }|g' src-tauri/Cargo.toml
+          sed -i 's|tauri = { version = "2", features = \["devtools", "test"\] }|tauri = { version = "2", features = \[\] }|g' src-tauri/Cargo.toml
           echo "Modified Cargo.toml:"
           cat src-tauri/Cargo.toml
 
